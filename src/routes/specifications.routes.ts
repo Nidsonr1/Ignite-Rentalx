@@ -7,7 +7,7 @@ import { CreateSpecificationService } from '../modules/cars/services/CreateSpeci
 
 const specificationRepository = new SpecificationRepository();
 
-specificationRoute.post('/specification', (request, response) => {
+specificationRoute.post('/', (request, response) => {
   const { name, description } = request.body;
 
   const createSpecificationService = new CreateSpecificationService(specificationRepository);
@@ -17,7 +17,7 @@ specificationRoute.post('/specification', (request, response) => {
   return response.status(201).send();
 });
 
-specificationRoute.get('/specification', (request, response) => {
+specificationRoute.get('/', (request, response) => {
   const all = specificationRepository.list();
   return response.json(all);
 });
