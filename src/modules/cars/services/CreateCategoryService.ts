@@ -5,7 +5,7 @@ interface IRequest {
   description: string;
 }
 
-class CreateCategoryService{
+class CreateCategoryService {
   constructor(private categoryRepository: ICategoryRepository){}
 
   execute({ name, description }: IRequest) {
