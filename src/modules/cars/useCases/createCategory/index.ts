@@ -4,8 +4,8 @@ import { CreateCategoryUseCase } from './CreateCategoryUseCase';
 
 
 
-const createRepository = new CategoryRepository();
-const createCategoryUseCase = new CreateCategoryUseCase(createRepository);
+const categoryRepository =  CategoryRepository.getInstance();
+const createCategoryUseCase = new CreateCategoryUseCase(categoryRepository);
 const createCategoryController = new CreateCategoryController(createCategoryUseCase);
 
 export { createCategoryController };
