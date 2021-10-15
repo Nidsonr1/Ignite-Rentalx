@@ -1,20 +1,16 @@
 import csvParse from "csv-parse"
 import fs from "fs";
+import { ICreateCategoryDTO } from "../../../repositories/ICategoryRepository";
 import { CategoryRepository } from "../../../repositories/implementations/CategoryRepository";
 
-
-interface IImportCategories {
-  name: string;
-  description: string
-}
 
 class ImportCategoryUseCase {
   constructor(private categorysRepository: CategoryRepository) {}
 
-  private loadCategory(file: Express.Multer.File): Promise<IImportCategories[]> {
+  private loadCategory(file: Express.Multer.File): Promise<ICreateCategoryDTO[]> {
     return new Promise((resolve, reject) => {
       const stream = fs.createReadStream(file.path);
-      const categories: IImportCategories[] = [];
+      const categories: ICreateCategoryDTO[] = [];
       const parseFile = csvParse();
 
       stream.pipe(parseFile);
