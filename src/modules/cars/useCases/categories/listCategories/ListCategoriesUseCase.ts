@@ -7,6 +7,11 @@ class ListCategoriesUseCase {
 
   execute(): Category[] {
     const categories = this.categoryRepository.list();
+
+    if(categories.length <= 0) {
+      throw new Error("Categories does not registred!");
+    }
+
     return categories;
   }
 }

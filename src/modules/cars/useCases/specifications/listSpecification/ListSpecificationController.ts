@@ -5,8 +5,12 @@ class ListSpecificationController {
   constructor(private listSpecificationUseCase: ListSpecificationUseCase){}
   
   handle(request: Request, response: Response): Response {
-    const all = this.listSpecificationUseCase.execute();
-    return response.json(all);
+    try {
+      const all = this.listSpecificationUseCase.execute();
+      return response.json(all);
+    } catch (error) {
+      return response.status(404).json({ error: error.message });
+    }
   }
   
 } 
