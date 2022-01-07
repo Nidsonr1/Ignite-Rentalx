@@ -1,13 +1,17 @@
 import csvParse from "csv-parse"
 import fs from "fs";
-import { ICreateCategoryDTO } from "../../../repositories/ICategoryRepository";
-import { CategoryRepository } from "../../../repositories/implementations/CategoryRepository";
+import { inject, injectable } from 'tsyringe'
 
+import { ICreateCategoryDTO, ICategoryRepository } from "../../../repositories/ICategoryRepository";
 
+@injectable()
 class ImportCategoryUseCase {
-  constructor(private categorysRepository: CategoryRepository) {}
+  constructor(
+    @inject("CategoryRepository")
+    private categorysRepository: ICategoryRepository
+  ) {}
 
-  private loadCategory(file: Express.Multer.File): Promise<ICreateCategoryDTO[]> {
+  loadCategory(file: Express.Multer.File): Promise<ICreateCategoryDTO[]> {
     return new Promise((resolve, reject) => {
       const stream = fs.createReadStream(file.path);
       const categories: ICreateCategoryDTO[] = [];
@@ -34,13 +38,13 @@ class ImportCategoryUseCase {
   async execute(file: Express.Multer.File): Promise<void> {
     const categories = await this.loadCategory(file);
     
-    categories.map((category) => {
+    categories.map(async (category) => {
       const { name, description } = category;
 
-      const categoryAlreadyExist = this.categorysRepository.findByName(name);
-
+      const categoryAlreadyExist = await this.categorysRepository.findByName(name);
+      
       if(!categoryAlreadyExist) {
-        this.categorysRepository.create({ name, description });
+        await this.categorysRepository.create({ name, description });
       }
     })
   }

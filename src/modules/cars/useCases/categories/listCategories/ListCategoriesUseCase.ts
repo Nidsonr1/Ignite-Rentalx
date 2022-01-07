@@ -1,14 +1,19 @@
+import { inject, injectable } from 'tsyringe';
+
 import { Category } from '../../../entities/Category';
 import { ICategoryRepository } from '../../../repositories/ICategoryRepository';
 
-
+@injectable()
 class ListCategoriesUseCase {
-  constructor(private categoryRepository: ICategoryRepository) {}
+  constructor(
+    @inject("CategoryRepository")
+    private categoryRepository: ICategoryRepository
+  ) {}
 
-  execute(): Category[] {
-    const categories = this.categoryRepository.list();
+  async execute(): Promise<Category[]> {
+    const categories = await this.categoryRepository.list();
 
-    if(categories.length <= 0) {
+    if(!categories) {
       throw new Error("Categories does not registred!");
     }
 
