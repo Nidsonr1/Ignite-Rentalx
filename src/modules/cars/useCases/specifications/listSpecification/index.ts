@@ -2,9 +2,10 @@ import { SpecificationRepository } from "../../../repositories/implementations/S
 import { ListSpecificationController } from "./ListSpecificationController";
 import { ListSpecificationUseCase } from "./ListSpecificationUseCase";
 
+export default () => {
+  const specificationRepository = new SpecificationRepository();  
+  const listSpecificationUseCase = new ListSpecificationUseCase(specificationRepository);
+  const listSpecificationController = new ListSpecificationController(listSpecificationUseCase);
 
-const specificationRepository =  SpecificationRepository.getInstance();
-const listSpecificationUseCase = new ListSpecificationUseCase(specificationRepository);
-const listSpecificationController = new ListSpecificationController(listSpecificationUseCase);
-
-export { listSpecificationController }
+  return listSpecificationController;
+}
