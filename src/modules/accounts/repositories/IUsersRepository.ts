@@ -6,4 +6,4 @@ interface IUsersRepository {
   findByEmail(email: string): Promise<User>;
 }
 
-export { IUsersRepository, ICreateUsersDTO }
+export { IUsersRepository }
