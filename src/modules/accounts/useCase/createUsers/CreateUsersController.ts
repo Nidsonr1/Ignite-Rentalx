@@ -6,19 +6,14 @@ class CreateUsersController {
 
   async handle(request: Request, response: Response): Promise<Response>{
     try {
-      const {name, username, email, password, driver_license} = request.body;
+      const {name, email, password, driver_license} = request.body;
 
       const createUsersUseCase = container.resolve(CreateUsersUseCase);
-      await createUsersUseCase.execute({ name, username, email, password, driver_license });
+      await createUsersUseCase.execute({ name, email, password, driver_license });
 
       return response.status(201).send();
     } catch (error) {
-      switch(error.message) {
-        case 'Username already exist':
-          return response.status(400).json(error.message);
-        case 'Email already registred':
-          return response.status(400).json(error.message);
-      }
+        return response.status(400).json(error.message);
     }
   }
 }
