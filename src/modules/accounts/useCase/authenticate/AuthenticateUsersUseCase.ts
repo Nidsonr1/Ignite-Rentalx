@@ -33,7 +33,7 @@ class AuthenticateUsersUseCase {
     
     if(!passwordMatch) throw new Error("Email or Password incorrect");
 
-    const token = sign({}, "3ec50d63cb1584af1fdc2bc25bffcd8c", {
+    const token = sign({}, process.env.keySecretJWT, {
       subject: user.id,
       expiresIn: "1d"
     });
