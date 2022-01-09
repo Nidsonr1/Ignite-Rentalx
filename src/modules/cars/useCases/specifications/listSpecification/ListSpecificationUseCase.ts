@@ -1,4 +1,5 @@
 import { inject, injectable } from 'tsyringe'
+import { AppErrors } from '../../../../../errors/AppErrors';
 
 import { Specification } from "../../../entities/Specification";
 import { ISpecificationRepository } from '../../../repositories/ISpecificationRepository';
@@ -13,8 +14,8 @@ class ListSpecificationUseCase {
   async execute(): Promise<Specification[]> {
     const specifications = await this.specificationRepository.list();
 
-    if(!specifications) {
-      throw new Error("Specifications does not registred!");
+    if(specifications.length <= 0) {
+      throw new AppErrors("Specifications does not registred!", 404);
     }
 
     return specifications;
